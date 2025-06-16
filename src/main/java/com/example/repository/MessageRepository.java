@@ -29,9 +29,9 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
     @Query("SELECT m FROM Message m WHERE m.postedBy = ?1")
     List<Message> getAllMessagesByAccountId(Integer id);
 
-    // get messages by id
-    @Query("SELECT m FROM Message m WHERE m.messageId = ?1")
-    Optional<Message> getMessageByIdFromDatabase(Integer messageId);
+    // // get messages by id
+    // @Query("SELECT m FROM Message m WHERE m.messageId = ?1")
+    // Optional<Message> getMessageByIdFromDatabase(Integer messageId);
 
     // delete messages
     @Modifying
@@ -42,6 +42,6 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
     // update message
     @Modifying
     @Transactional
-    @Query("UPDATE Message m SET m.messageId = ?1, m.postedBy = ?2, m.messageText = ?3, m.timePostedEpoch = ?4")
+    @Query("UPDATE Message m SET m.postedBy = ?2, m.messageText = ?3, m.timePostedEpoch = ?4 WHERE m.messageId = ?1")
     int updateMessageById(Integer messageId, Integer postedBy, String messageText, Long timePostedEpoch);
 }

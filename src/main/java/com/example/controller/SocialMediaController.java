@@ -95,19 +95,13 @@ public class SocialMediaController {
 
     // User gets single message by Id
     @GetMapping("/messages/{message_id}")
-    public ResponseEntity<Message> getMessageById(@PathVariable Integer message_id, @RequestBody Account body) {
-        // check user id maybe can be seperate method
-        Integer userId = body.getAccountId();
-        if (userId == null) {
-            return ResponseEntity.status(200).body(null);
-        }
+    public ResponseEntity<Message> getMessageById(@PathVariable Integer message_id) {
         // retrieve Message here
         Message foundMessage = messageService.getMessageById(message_id);
-
         if (foundMessage != null) {
             return ResponseEntity.status(200).body(foundMessage);
         }
-        return ResponseEntity.status(200).body(null);
+        return ResponseEntity.ok(null);
     }
 
     // User updates message by id
@@ -123,7 +117,7 @@ public class SocialMediaController {
         if (text.isBlank() || text.length() > 255) {
             return ResponseEntity.status(400).body(0);
         }
-        Integer rowsEffected = messageService.updateMessage(message);
+        Integer rowsEffected = messageService.updateMessage(message_id, message);
         return ResponseEntity.status(200).body(rowsEffected);
     }
 
@@ -133,7 +127,7 @@ public class SocialMediaController {
         // message id validation
         Message validMessage = messageService.getMessageById(message_id);
         if (validMessage == null) {
-            return ResponseEntity.status(200).body(0);
+            return ResponseEntity.status(200).body(null);
         }
         Integer rowsEffected = messageService.deleteMessage(message_id);
         return ResponseEntity.status(200).body(rowsEffected);
