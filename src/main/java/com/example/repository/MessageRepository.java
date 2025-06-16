@@ -13,14 +13,7 @@ import com.example.entity.Message;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Integer> {
-    // create table message (
-    //     messageId int primary key auto_increment,
-    //     postedBy int,
-    //     messageText varchar(255),
-    //     timePostedEpoch bigint,
-    //     foreign key (postedBy) references account(accountId)
-    // );
-    
+
     // get all messages
     @Query("SELECT m FROM Message m")
     List<Message> getAllMessagesFromDatabase();
@@ -28,10 +21,6 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
     // get all messages
     @Query("SELECT m FROM Message m WHERE m.postedBy = ?1")
     List<Message> getAllMessagesByAccountId(Integer id);
-
-    // // get messages by id
-    // @Query("SELECT m FROM Message m WHERE m.messageId = ?1")
-    // Optional<Message> getMessageByIdFromDatabase(Integer messageId);
 
     // delete messages
     @Modifying
